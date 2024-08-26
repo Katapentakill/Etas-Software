@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 if __name__ == '__main__':
 
     # reads configuration for example ETAS parameter inversion
-    with open('../config/ch_forecast_config.json', 'r') as f:
+    with open("D:/Ale/Software Teremoto-Sismo/etas/config/ch_forecast_config.json", 'r') as f:
         forecast_config = json.load(f)
 
     etas_invert = ETASParameterCalculation(forecast_config)
@@ -25,7 +25,7 @@ if __name__ == '__main__':
 
     pprint(etas_invert.__dict__)
 
-    with open('../output_data/parameters_ch.json', 'r') as f:
+    with open("D:/Ale/Software Teremoto-Sismo/etas/output_data/parameters_ch.json", 'r') as f:
         forecast_config_reload = json.load(f)
 
     etas_reload = ETASParameterCalculation.load_calculation(

@@ -1,5 +1,6 @@
 import logging
 
+__version__ = '3.0'
 
 def set_up_logger(level=logging.INFO):
     ''' Set up logger '''

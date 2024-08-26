@@ -13,7 +13,7 @@ from etas.simulation import generate_catalog
 set_up_logger(level=logging.INFO)
 if __name__ == '__main__':
     # reads configuration for example ETAS parameter inversion
-    with open("../config/simulate_catalog_config.json", 'r') as f:
+    with open("D:/Ale/Software Teremoto-Sismo/etas/config/simulate_catalog_config.json", 'r') as f:
         simulation_config = json.load(f)
 
     region = Polygon(np.load(simulation_config["shape_coords"]))

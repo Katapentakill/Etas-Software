@@ -1,6 +1,6 @@
 {
-  "fn_store": "../output_data/simulated_catalog.csv",
-  "shape_coords": "../input_data/california_shape.npy",
+  "fn_store": "D:/Ale/Software Teremoto-Sismo/etas/output_data/simulated_catalog.csv",
+  "shape_coords": "D:/Ale/Software Teremoto-Sismo/etas/input_data/california_shape.npy",
   "burn_start": "1871-01-01 00:00:00",
   "primary_start": "1971-01-01 00:00:00",
   "end": "2021-01-01 00:00:00",
