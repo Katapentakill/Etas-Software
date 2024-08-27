@@ -20,6 +20,8 @@ import tabulate
 import cartopy
 import fiona
 import etas
+import hermes_model
+import seismostats
 
 print("attrs version:", attrs.__version__)
 print("certifi version:", certifi.__version__)

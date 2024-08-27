@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 
 try:
-    from ramsis_model import ModelInput, validate_entrypoint
+    from hermes_model import ModelInput, validate_entrypoint
 except ImportError:
     raise ImportError(
         "The ramsis package is required to run the model. "
@@ -27,7 +27,7 @@ def entrypoint(model_input: ModelInput) -> pd.DataFrame:
     """
 
     # Prepare seismic data from QuakeML
-    catalog = Catalog.from_quakeml(model_input.seismic_catalog)
+    catalog = Catalog.from_quakeml(model_input.seismicity_observation)
     catalog.set_index('time', inplace=True, drop=False)
     catalog.rename_axis(
         None, inplace=True)
@@ -36,12 +36,22 @@ def entrypoint(model_input: ModelInput) -> pd.DataFrame:
             1992, 1, 1), 2.7, 2.3)
 
     # Prepare model input
-    polygon = np.array(
-        wkt.loads(model_input.geometry.bounding_polygon).exterior.coords)
-    model_parameters = model_input.model_parameters
-    model_parameters['shape_coords'] = polygon
-    model_parameters['catalog'] = catalog
-    model_parameters['timewindow_end'] = model_input.forecast_start
+    try:
+        # Load polygon from WKT
+        polygon = wkt.loads(model_input.bounding_polygon)
+        if not polygon.is_valid:
+            raise ValueError("Loaded polygon is not valid.")
+        if polygon.exterior is None:
+            raise ValueError("Polygon has no exterior ring.")
+        
+        polygon_coords = np.array(polygon.exterior.coords)
+        model_parameters = model_input.model_parameters
+        model_parameters['shape_coords'] = polygon_coords
+        model_parameters['catalog'] = catalog
+        model_parameters['timewindow_end'] = model_input.forecast_start
+
+    except Exception as e:
+        raise ValueError(f"Error processing bounding polygon: {e}")
 
     # Run ETAS Parameter Inversion
     etas_parameters = ETASParameterCalculation(model_parameters)
